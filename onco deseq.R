@@ -95,9 +95,9 @@ EnhancedVolcano(res,
 EnhancedVolcano(res,
                 lab = dataset$Gene.Name,
                 x = 'log2FoldChange',
-                y = 'pvalue',
-                pCutoff = 10e-6,
-                FCcutoff = 3.6,
+                y = 'padj',
+                pCutoff = 10e-7,
+                FCcutoff = 2.5,
                 xlim = c(-5.7, 5.7),
                 ylim = c(0, -log10(10.2e-12)),
                 pointSize = 1.3,
@@ -123,64 +123,3 @@ write.table(finaltable, file = 'finaltable.csv', sep = ',',
 
 
 
-
-#Create DESeq results object using Holmr correction
-res=results(object = dds, contrast = c('type','cancer','normal'),
-            pAdjustMethod = 'holm', alpha = 0.000001)
-row.names(res)=dataset$Gene.Name
-summary(res)
-
-
-
-#Create publication grade volcano plot with marked genes of interest
-EnhancedVolcano(res,
-lab = dataset$Gene.Name,
-x = 'log2FoldChange',
-y = 'pvalue',
-pCutoff = 10e-5,
-FCcutoff = 1.333,
-xlim = c(-5.7, 5.7),
-ylim = c(0, -log10(10.2e-12)),
-pointSize = 1.3,
-labSize = 2.6,
-title = 'The results',
-subtitle = 'Differential expression analysis',
-caption = 'log2fc cutoff=1.333; p value cutof=10e-5',
-legendPosition = "right",
-legendLabSize = 14,
-col = c('lightblue', 'orange', 'blue', 'red2'),
-colAlpha = 0.6,
-drawConnectors = TRUE,
-hline = c(10e-8),
-widthConnectors = 0.5)
-
-
-#Create publication grade volcanoplot with marked genes of interest
-EnhancedVolcano(res,
-                lab = dataset$Gene.Name,
-                x = 'log2FoldChange',
-                y = 'padj',
-                pCutoff = 10e-7,
-                FCcutoff = 2.5,
-                xlim = c(-5.7, 5.7),
-                ylim = c(0, -log10(10.2e-12)),
-                pointSize = 1.3,
-                labSize = 2.6,
-                title = 'The results',
-                subtitle = 'Differential expression analysis',
-                caption = 'log2fc cutoff=1.333; p value cutof=10e-6',
-                legendPosition = "right",
-                legendLabSize = 14,
-                col = c('lightblue', 'orange', 'blue', 'red2'),
-                colAlpha = 0.6,
-                drawConnectors = TRUE,
-                hline = c(10e-8),
-                widthConnectors = 0.5)
-
-
-#Create the final dataframe consisting of ordered deseq results based on log2fc
-resord=as.data.frame(res)
-finaltable=cbind(dataset$Gene.Name, resord)
-finalrable=finaltable[order(finaltable$log2FoldChange),]
-write.table(finaltable, file = 'finaltable.csv', sep = ',',
-col.names = NA)
