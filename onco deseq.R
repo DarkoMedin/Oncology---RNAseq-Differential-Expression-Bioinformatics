@@ -11,19 +11,19 @@ if (!require('BiocManager', quietly = TRUE))
 
 BiocManager::install('EnhancedVolcano')
 
-
+#Load the libraries
 library(DESeq2)
 library(EnhancedVolcano)
+
 #Load the file containing the experiment design
 #'path'=location of the file
-#design <- read.delim('path/E-GEOD-50760-experiment-design.tsv')
-design=E.GEOD.50760.experiment.design
+design <- read.delim('path/E-GEOD-50760-experiment-design.tsv')
 View(design)
 
 #Load raw counts data
 #'path'=location of the file
-#raw.counts <- read.delim('path/E-GEOD-50760-raw-counts.tsv')
-raw.counts=E.GEOD.50760.raw.counts
+raw.counts <- read.delim('path/E-GEOD-50760-raw-counts.tsv')
+View(raw.counts)
 
 
 #This file is important because it contatin columns relating samples with phenotypes
